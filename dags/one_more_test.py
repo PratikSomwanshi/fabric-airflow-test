@@ -10,7 +10,7 @@ def say_hello():
 
 
 with DAG(
-    dag_id="again_hello_fabric",
+    dag_id="triple_hello_fabric",
     description="Test GitHub Git Sync with Fabric Airflow",
     start_date=datetime(2026, 1, 1),
     schedule=None,
