@@ -1,0 +1,43 @@
+name: Validate Fabric Airflow DAGs
+
+on:
+    push:
+        branches:
+            - dev
+            - main
+        paths:
+            - "dags/**/*.py"
+            - "dags/*.py"
+            - ".github/workflows/validate-dags.yml"
+
+    pull_request:
+        branches:
+            - main
+        paths:
+            - "dags/**/*.py"
+            - "dags/*.py"
+            - ".github/workflows/validate-dags.yml"
+
+permissions:
+    contents: read
+
+jobs:
+    validate:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Set up Python
+              uses: actions/setup-python@v5
+              with:
+                  python-version: "3.11"
+
+            - name: Check Python syntax
+              run: python -m compileall -q dags
+
+            - name: Verify DAG directory
+              run: |
+                  test -d dags
+                  find dags -type f -name "*.py" -print
